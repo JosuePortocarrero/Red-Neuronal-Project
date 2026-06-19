@@ -1,40 +1,48 @@
-import { Cpu, BookOpen } from 'lucide-react'
+import { Cpu } from 'lucide-react'
 
-export default function Header() {
+const STATUS = {
+  checking: { color: '#eab308', label: 'Conectando…',  pulse: true },
+  online:   { color: '#10b981', label: 'Activo', pulse: false },
+  offline:  { color: '#ef4444', label: 'Sin conexión',  pulse: false },
+}
+
+export default function Header({ apiStatus = 'checking' }) {
+  const s = STATUS[apiStatus] ?? STATUS.checking
+
   return (
-    <header className="sticky top-0 z-40 border-b border-white/5"
-      style={{ background: 'rgba(4,6,15,0.85)', backdropFilter: 'blur(24px)' }}>
-      <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
-
-        {/* Logo + Title */}
+    <header className="sticky top-0 z-50 border-b border-white/5"
+      style={{ background: 'rgba(8,8,15,0.8)', backdropFilter: 'blur(20px)' }}>
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          {/* Chip icon */}
-          <div className="relative w-8 h-8 shrink-0">
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-cyan-500 to-indigo-600 opacity-90" />
-            <div className="absolute inset-0 rounded-lg flex items-center justify-center">
-              <Cpu className="w-4 h-4 text-white" />
-            </div>
-            {/* Glow */}
-            <div className="absolute inset-0 rounded-lg bg-cyan-500/20 blur-md -z-10 scale-150" />
-          </div>
-
-          <div>
-            <h1 className="text-sm font-bold tracking-tight text-gradient-primary leading-none">
-              Oráculo CPU
-            </h1>
-            <p className="text-[10px] text-slate-600 leading-none mt-0.5 tracking-widest uppercase">
-              Predictor Arquitectónico · AMC + IA
-            </p>
+          {/* Logo mark */}
+          <div className="flex items-baseline gap-2">
+            <span className="text-[20px] font-bold text-brand ">AMC + IA</span>
           </div>
         </div>
 
-        {/* Right side badge */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/6"
-          style={{ background: 'rgba(99,102,241,0.06)' }}>
-          <BookOpen className="w-3 h-3 text-indigo-400" />
-          <span className="text-[10px] text-slate-500 font-medium tracking-wide uppercase">
-            Flynn · Amdahl
-          </span>
+        <div className="flex items-center gap-3">
+          {/* Tags técnicos */}
+          <div className="hidden md:flex items-center gap-1.5">
+            {['AMC', 'Flynn', 'Amdahl', 'PyTorch'].map(tag => (
+              <span key={tag}
+                className="text-[9px] font-mono text-white/55 px-2 py-0.5 rounded border border-white/5">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Estado del backend */}
+          <div className="flex items-center gap-1.5 pl-3 sm:border-l border-white/5"
+            title={s.label} aria-label={`Estado del servidor: ${s.label}`}>
+            <span className="relative flex w-2 h-2">
+              {s.pulse && (
+                <span className="absolute inline-flex h-full w-full rounded-full opacity-60 animate-ping"
+                  style={{ background: s.color }} />
+              )}
+              <span className="relative inline-flex rounded-full w-2 h-2" style={{ background: s.color }} />
+            </span>
+            <span className="hidden sm:inline text-[10px] text-white/60 font-medium">{s.label}</span>
+          </div>
         </div>
       </div>
     </header>

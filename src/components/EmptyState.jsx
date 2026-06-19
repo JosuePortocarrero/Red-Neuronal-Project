@@ -2,47 +2,62 @@ import { Cpu } from 'lucide-react'
 
 export default function EmptyState() {
   return (
-    <div className="h-full min-h-[400px] flex flex-col items-center justify-center gap-5 rounded-2xl border border-dashed border-white/6">
+    <div className="surface rounded-2xl h-full min-h-[535px] flex flex-col items-center justify-center gap-8 px-6">
 
-      {/* Animated icon */}
+      {/* Chip illustration */}
       <div className="relative animate-float">
-        <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
-          style={{ background: 'rgba(8,12,28,0.9)', border: '1px solid rgba(99,102,241,0.15)' }}>
-          <Cpu className="w-7 h-7 text-slate-600" />
+        <div className="w-28 h-28 rounded-3xl flex items-center justify-center"
+          style={{ background: 'rgba(168,85,247,0.06)', border: '1px solid rgba(168,85,247,0.18)' }}>
+          <Cpu className="w-12 h-12 text-violet-400/70" />
         </div>
-        {/* Corner dots — chip pins */}
-        {['-top-1 -left-1', '-top-1 -right-1', '-bottom-1 -left-1', '-bottom-1 -right-1'].map((pos, i) => (
-          <div key={i} className={`absolute ${pos} w-2 h-2 rounded-full border border-slate-700 bg-slate-900`} />
+
+        {/* Circuit lines */}
+        {[
+          'w-8 h-px -left-10 top-1/3',
+          'w-8 h-px -left-10 top-2/3',
+          'w-8 h-px -right-10 top-1/3',
+          'w-8 h-px -right-10 top-2/3',
+          'h-8 w-px top-[-38px] left-1/3',
+          'h-8 w-px top-[-38px] left-2/3',
+          'h-8 w-px bottom-[-38px] left-1/3',
+          'h-8 w-px bottom-[-38px] left-2/3',
+        ].map((pos, i) => (
+          <div key={i} className={`absolute ${pos}`}
+            style={{ background: 'linear-gradient(90deg, rgba(168,85,247,0.3), transparent)' }} />
         ))}
-        {/* Side pins */}
-        {['-left-3 top-1/2 -translate-y-1/2', '-right-3 top-1/2 -translate-y-1/2'].map((pos, i) => (
-          <div key={i} className={`absolute ${pos} flex flex-col gap-1`}>
-            {[0,1,2].map(j => (
-              <div key={j} className="w-1.5 h-0.5 rounded-full bg-slate-700" />
-            ))}
-          </div>
+
+        {/* Corner nodes */}
+        {['top-[-42px] left-1/3', 'top-[-42px] left-2/3', 'bottom-[-42px] left-1/3', 'bottom-[-42px] left-2/3',
+          '-left-[42px] top-1/3', '-left-[42px] top-2/3', '-right-[42px] top-1/3', '-right-[42px] top-2/3'
+        ].map((pos, i) => (
+          <div key={i} className={`absolute ${pos} w-2 h-2 rounded-full`}
+            style={{ background: 'rgba(168,85,247,0.45)' }} />
         ))}
       </div>
 
-      <div className="text-center space-y-1.5">
-        <p className="text-slate-400 text-sm font-medium">Configura la comparación</p>
-        <p className="text-slate-700 text-xs max-w-xs leading-relaxed">
-          Selecciona dos procesadores, describe tu caso de uso y el modelo híbrido AMC + IA generará el veredicto.
+      <div className="mt-5 text-center space-y-3 max-w-md">
+        <p className="text-white/90 text-xl font-semibold">Configura la comparación</p>
+        <p className="text-white/55 text-sm leading-relaxed">
+          Selecciona dos procesadores y describe tu carga de trabajo.
         </p>
       </div>
 
-      {/* Steps hint */}
-      <div className="flex items-center gap-3">
-        {['Elige CPUs', 'Describe uso', 'Analiza'].map((step, i) => (
+      {/* Steps */}
+      <div className="flex items-center gap-3 flex-wrap justify-center">
+        {[
+          { n: '1', t: 'Elige CPUs' },
+          { n: '2', t: 'Describe el uso' },
+          { n: '3', t: 'Resultados' },
+        ].map((s, i) => (
           <div key={i} className="flex items-center gap-3">
-            <div className="flex items-center gap-1.5">
-              <span className="w-4 h-4 rounded-full text-[9px] font-bold flex items-center justify-center"
-                style={{ background: 'rgba(99,102,241,0.15)', color: '#818cf8', border: '1px solid rgba(99,102,241,0.2)' }}>
-                {i + 1}
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full flex items-center justify-center text-[11px] font-bold font-mono"
+                style={{ background: 'rgba(168,85,247,0.18)', color: '#c4b5fd', border: '1px solid rgba(168,85,247,0.3)' }}>
+                {s.n}
               </span>
-              <span className="text-[10px] text-slate-600">{step}</span>
+              <span className="text-[13px] text-white/55">{s.t}</span>
             </div>
-            {i < 2 && <div className="w-3 h-px bg-slate-800" />}
+            {i < 2 && <div className="w-6 h-px bg-white/[0.1]" />}
           </div>
         ))}
       </div>
