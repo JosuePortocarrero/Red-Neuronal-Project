@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #08080f;
+    color: #d4d4e0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root { min-height: 100vh; }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(168, 85, 247, 0.25);
+    border-radius: 100px;
+  }
+
+  ::selection {
+    background: rgba(168, 85, 247, 0.35);
+    color: #fff;
+  }
+}
+
+/* ── Background composition ────────────────────────────────── */
+.app-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 20%, rgba(124, 58, 237, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 85% 75%, rgba(234, 179, 8, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(16, 185, 129, 0.03) 0%, transparent 50%),
+    #08080f;
+  pointer-events: none;
+}
+
+.app-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 30h60M30 0v60' stroke='%23ffffff' stroke-width='0.3' opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+/* ── Glass surfaces ───────────────────────────────────────── */
+.surface {
+  background: rgba(14, 14, 22, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.surface-elevated {
+  background: rgba(20, 20, 32, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.3),
+    0 8px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Winner glow border ──────────────────────────────────── */
+.winner-glow {
+  position: relative;
+  overflow: visible;
+}
+.winner-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(135deg, #a855f7, #eab308, #10b981, #a855f7);
+  background-size: 300% 300%;
+  animation: borderRotate 4s ease infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+@keyframes borderRotate {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* ── Gradient text ──────────────────────────────────────── */
+.text-brand {
+  background: linear-gradient(135deg, #c084fc, #a855f7, #7c3aed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.text-winner {
+  background: linear-gradient(135deg, #fbbf24, #f59e0b, #eab308);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Score font ─────────────────────────────────────────── */
+.score {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ── Recharts tooltip override ──────────────────────────── */
+.recharts-tooltip-wrapper { outline: none !important; }
+
+/* ── Accessibility: visible keyboard focus ──────────────── */
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid rgba(168, 85, 247, 0.7);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+/* ── Preset / quick-pick chips ──────────────────────────── */
+.chip {
+  font-size: 11px;
+  line-height: 1;
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.chip:hover {
+  color: rgba(196, 181, 253, 0.95);
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+.chip[data-active='true'] {
+  color: #c084fc;
+  background: rgba(168, 85, 247, 0.14);
+  border-color: rgba(168, 85, 247, 0.4);
+}
+
+/* ── Reduced motion: respect user preference ────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
